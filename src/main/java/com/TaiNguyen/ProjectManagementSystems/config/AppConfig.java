@@ -27,7 +27,7 @@ public class AppConfig {
                 .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
-                .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidator(), UsernamePasswordAuthenticationFilter.class);
                 .csrf(csrf -> csrf.disable())
                 .cors(cors->cors.configurationSource(corsConfigrationSource()));
 
@@ -40,13 +40,11 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                // cfg.setAllowedOrigins(Arrays.asList(
+                cfg.setAllowedOrigins(Arrays.asList(
+    "http://localhost:5173", 
+    "https://react-js-project-management-systems.vercel.app"
+));
 
-                //         "http://localhost:5173",
-                //         "https://react-js-project-management-systems.vercel.app"
-
-                // ));
-                cfg.setAllowedOrigins(Collections.singletonList("*"));
 
                 cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 cfg.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
